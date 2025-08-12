@@ -1,23 +1,23 @@
-# Use a base image with PyTorch, CUDA, and Python pre-installed (for GPU support)
-FROM runpod/pytorch:2.1.0-py3.10-cuda12.1-cudnn8-devel-ubuntu22.04
+# GPU-ready PyTorch image
+FROM nvcr.io/nvidia/pytorch:23.10-py3
 
-# Set working directory inside container
+# Set working directory
 WORKDIR /workspace
 
-# Install system dependencies needed by your Python packages (like ffmpeg)
+# Install system dependencies
 RUN apt-get update && apt-get install -y ffmpeg git && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements.txt into the container
+# Copy requirements
 COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy all your source code files into the container
+# Copy source code
 COPY . .
 
-# Expose the port your FastAPI server will listen on
+# Expose FastAPI port
 EXPOSE 8000
 
-# Command to run your FastAPI server using Uvicorn
+# Start FastAPI server
 CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
