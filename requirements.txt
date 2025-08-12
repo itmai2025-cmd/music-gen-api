@@ -1,6 +1,7 @@
 torch
 torchaudio
-audiocraft
+git+https://github.com/facebookresearch/audiocraft.git
+runpod
 transformers
 sentencepiece
 soxr
